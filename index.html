@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>HEDIT | Mobile Invitation Collection</title>
+    
+    <meta property="og:title" content="HEDIT 헤딧">
+    <meta property="og:description" content="가장 빛나는, 우리다운 첫 페이지">
+    <meta property="og:image" content="https://www.dropbox.com/scl/fi/d937zw40ouqeck48famxy/HEDIT-Logo.jpg?rlkey=2snhqu8q34lri1vmgstkpirfq&st=297p55ry&raw=1"> 
+    <meta property="og:url" content="https://내쇼케이스주소.com">
+    
+    <link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/kknc8ddn7yrpcg0hebnwt/2.jpg?rlkey=omkzcfr6vejxibwfyklkkm93h&st=ux3gtajz&raw=1">
+
+    <style>
+        /* [HEDIT!] 본문 폰트 [Resolve-Light.otf] 등록 */
+        @font-face {
+            font-family: 'Resolve-Light';
+            src: url('./Resolve-Light.otf') format('opentype');
+            font-weight: 300;
+            font-style: normal;
+        }
+
+        :root {
+            --bg-color: #fcfcfc;
+            --text-dark: #262626;
+            --text-light: #888888;
+            --accent-gold: #c9a96e;
+            --border-color: #eeeeee;
+            
+            /* 본문 폰트로 Resolve-Light 지정 */
+            --font-main: 'Resolve-Light', sans-serif; 
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-main);
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* 상단 헤더 */
+        header {
+            text-align: center;
+            padding: 50px 20px 30px;
+        }
+
+        .logo-container {
+            margin: 0 auto;
+            /* 로고 사이즈를 1/4로 축소 (약 37px) */
+            max-width: 37.5px; 
+            height: auto;
+        }
+
+        .logo-img {
+            width: 100%; 
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .subtitle {
+            font-size: 13px;
+            color: var(--text-light);
+            margin-top: 15px;
+            letter-spacing: 1.5px;
+            font-weight: 300;
+        }
+
+        /* 메인 컨테이너 */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px 20px 80px;
+        }
+
+        /* 타입 선택 탭 */
+        .tab-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 50px;
+            border-bottom: 1px solid var(--border-color);
+            flex-wrap: wrap; /* 메뉴가 많아져서 줄바꿈 되도록 유지 */
+            
+            /* 상단 고정 및 애니메이션 처리를 위한 속성 */
+            position: sticky;
+            top: 0;
+            background-color: var(--bg-color);
+            z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            font-family: var(--font-main);
+            font-size: 14px;
+            color: var(--text-light);
+            padding: 15px 15px;
+            cursor: pointer;
+            position: relative;
+            transition: color 0.3s ease;
+            letter-spacing: 0.5px;
+            text-transform: uppercase; 
+        }
+
+        .tab-btn.active {
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--text-dark);
+        }
+
+        /* 드롭다운 메뉴 사용성 개선 */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #fff;
+            min-width: 140px; /* 클릭하기 편하게 더 넓게 설정 */
+            box-shadow: 0px 10px 25px rgba(0,0,0,0.1);
+            z-index: 100;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            overflow: hidden;
+        }
+        .dropdown-content.show {
+            display: block;
+        }
+        .dropdown:hover .dropdown-content {
+            display: block; 
+        }
+        .dropdown-content .sub-tab-btn {
+            background: none;
+            border: none;
+            padding: 15px; 
+            font-family: var(--font-main);
+            font-size: 14px; 
+            color: var(--text-light);
+            width: 100%;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            text-transform: uppercase;
+        }
+        .dropdown-content .sub-tab-btn:hover {
+            color: var(--text-dark);
+            background-color: #f9f9f9;
+        }
+        .sub-tab-btn.active {
+            color: var(--text-dark);
+            font-weight: 600;
+            background-color: #f9f9f9;
+        }
+
+        /* 디자인 리스트 그리드 */
+        .design-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 40px;
+            display: none; 
+        }
+
+        .design-grid.active {
+            display: grid;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        /* 개별 디자인 카드 */
+        .design-card {
+            background: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            cursor: pointer; 
+        }
+
+        .design-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.06);
+        }
+
+        .card-image-wrapper {
+            width: 100%;
+            aspect-ratio: 3 / 4;
+            overflow: hidden;
+            border-bottom: 1px solid var(--border-color);
+            background-color: #f9f9f9;
+        }
+
+        .card-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .design-card:hover .card-image {
+            transform: scale(1.03);
+        }
+
+        .card-info {
+            padding: 25px 20px;
+            text-align: center;
+        }
+
+        .card-title {
+            font-family: var(--font-main);
+            font-size: 20px;
+            font-weight: 600;
+            margin: 0 0 8px 0;
+            letter-spacing: 1px;
+        }
+
+        .card-desc {
+            font-size: 13px;
+            color: var(--text-light);
+            margin-bottom: 20px;
+            font-weight: 300;
+            line-height: 1.6;
+            white-space: pre-wrap; 
+        }
+
+        /* 샘플 보기 버튼 */
+        .view-btn {
+            display: inline-block;
+            padding: 10px 30px;
+            border: 1px solid var(--text-dark);
+            font-size: 12px;
+            color: var(--text-dark);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            transition: all 0.3s ease;
+            font-family: var(--font-main);
+            font-weight: 400;
+        }
+
+        .design-card:hover .view-btn {
+            background-color: var(--text-dark);
+            color: #fff;
+        }
+
+        #submit-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed !important;
+            pointer-events: none;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 사진 보정 인스타그램 그리드 전용 스타일 */
+        .ig-grid {
+            grid-template-columns: repeat(3, 1fr) !important;
+            gap: 5px !important;
+        }
+        @media (max-width: 600px) {
+            .ig-grid { gap: 2px !important; }
+        }
+        .ig-item {
+            aspect-ratio: 4 / 5;
+            overflow: hidden;
+            cursor: pointer;
+            position: relative;
+            background-color: #f9f9f9;
+        }
+        .ig-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+        .ig-item:hover img {
+            transform: scale(1.05);
+        }
+        .ig-multiple-icon {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            color: #fff;
+            filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.5));
+        }
+
+        /* 로딩 스피너 애니메이션 */
+        .loader {
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 3px solid #fff;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* 푸터 */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            font-size: 11px;
+            color: var(--text-light);
+            letter-spacing: 1px;
+            border-top: 1px solid var(--border-color);
+            background-color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-container">
+            <img src="logo.png" alt="HEDIT" class="logo-img" onclick="document.getElementById('tab-home').click()" style="cursor: pointer;">
+        </div>
+        <div class="subtitle">가장 빛나는, 우리다운 첫 페이지</div>
+    </header>
+
+    <div class="container">
+        <div class="tab-container">
+            <button id="tab-home" class="tab-btn active" onclick="showCategory('home-type')">HOME</button>
+            
+            <div class="dropdown">
+                <button class="tab-btn" onclick="toggleDropdown(event)">모바일청첩장</button>
+                <div class="dropdown-content" id="mobile-dropdown">
+                    <button class="sub-tab-btn" onclick="showCategory('menu-type')">클래식</button>
+                    <button class="sub-tab-btn" onclick="showCategory('premium-type')">프리미엄</button>
+                </div>
+            </div>
+            
+            <button class="tab-btn" onclick="showCategory('retouch-type')">사진 보정</button>
+            <button class="tab-btn" onclick="showCategory('price-type')">가격 안내</button>
+            <button class="tab-btn" onclick="showCategory('inquiry-type')">예약•문의하기</button>
+        </div>
+
+        <div id="home-type" class="design-grid active">
+            <div style="grid-column: 1 / -1; width: 100vw; position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; overflow: hidden; height: 80vh; min-height: 400px; display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.8s ease;">
+                
+                <img src="https://www.dropbox.com/scl/fi/kknc8ddn7yrpcg0hebnwt/2.jpg?rlkey=omkzcfr6vejxibwfyklkkm93h&st=ux3gtajz&raw=1" alt="HOME 메인 이미지" fetchpriority="high" onload="this.parentElement.style.opacity='1';" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1;">
+                
+                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.45); z-index: 2;"></div>
+                
+                <div style="position: relative; z-index: 3; color: #fff; text-align: center; padding: 0 20px; font-family: var(--font-main);">
+                    <div style="font-size: 22px; font-weight: 600; margin-bottom: 25px; letter-spacing: 1px;">가장 빛나는, 우리다운 첫 페이지</div>
+                    <div style="font-size: 14px; font-weight: 390; line-height: 1.8; letter-spacing: 0.5px;">
+                        인위적인 느낌 없이 본연의 아름다움을 살리는 디테일한 사진 보정부터,<br>
+                        두 사람의 무드를 가득 담은 모바일 청첩장 제작까지.<br><br>
+                        오직 당신만을 위한 결과물로 평생 간직할 순간을 더욱 완벽하게 완성해 드리겠습니다.
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div id="menu-type" class="design-grid">
+            <div style="grid-column: 1 / -1; text-align: center; font-size: 13px; color: var(--text-light); margin-bottom: -10px;">* HEDIT의 모바일 청첩장은 1:1 주문제작으로 완성됩니다.</div>
+            <a href="https://heditphoto-web.github.io/hedit_Classic_Serene-Dove/" target="_blank" class="design-card">
+                <div class="card-image-wrapper">
+                    <img src="https://www.dropbox.com/scl/fi/ycw1ddqhahfowrbjuij1f/Serene-Dove_.jpg?rlkey=lv3t0fkc3f1z4gm436j635jya&st=knlz5tz2&raw=1" alt="Serene Dove (시린 도브)" class="card-image">
+                </div>
+                <div class="card-info">
+                    <h2 class="card-title">Serene Dove (시린 도브)</h2>
+                    <p class="card-desc">일생을 한 파트너와 함께하는 비둘기처럼,&#10;순수하고 신뢰 깊은 영원한 사랑을 상징합니다.</p>
+                    <span class="view-btn">샘플 보기</span>
+                </div>
+            </a>
+            
+            <a href="javascript:void(0)" onclick="openPlaceholderAlert('새로운 디자인')" class="design-card">
+                <div class="card-image-wrapper">
+                    <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='533' viewBox='0 0 400 533'><rect width='400' height='533' fill='%23f9f9f9'/><path d='M184 246 v-30 h32 v30 l-12 12 12 12 v30 h-32 v-30 l12-12 -12-12 z M176 210 h48 v6 h-48 v-6 z M176 306 h48 v6 h-48 v-6 z' fill='%23d0d0d0'/><text x='50%25' y='63%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='14' font-weight='300' fill='%23a0a0a0' letter-spacing='3'>COMING SOON</text></svg>" alt="Coming Soon" class="card-image">
+                </div>
+                <div class="card-info">
+                    <h2 class="card-title">Coming Soon</h2>
+                    <p class="card-desc">새롭고 매력적인 디자인을&#10;정성껏 준비하고 있습니다.</p>
+                    <span class="view-btn">준비 중</span>
+                </div>
+            </a>
+        </div>
+
+        <div id="premium-type" class="design-grid">
+            <div style="grid-column: 1 / -1; text-align: center; font-size: 13px; color: var(--text-light); margin-bottom: -10px;">* HEDIT의 모바일 청첩장은 1:1 주문제작으로 완성됩니다.</div>
+            <a href="javascript:void(0)" onclick="openPlaceholderAlert('새로운 디자인')" class="design-card">
+                <div class="card-image-wrapper">
+                    <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='533' viewBox='0 0 400 533'><rect width='400' height='533' fill='%23f9f9f9'/><path d='M184 246 v-30 h32 v30 l-12 12 12 12 v30 h-32 v-30 l12-12 -12-12 z M176 210 h48 v6 h-48 v-6 z M176 306 h48 v6 h-48 v-6 z' fill='%23d0d0d0'/><text x='50%25' y='63%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='14' font-weight='300' fill='%23a0a0a0' letter-spacing='3'>COMING SOON</text></svg>" alt="Coming Soon" class="card-image">
+                </div>
+                <div class="card-info">
+                    <h2 class="card-title">Coming Soon</h2>
+                    <p class="card-desc">새롭고 매력적인 디자인을&#10;정성껏 준비하고 있습니다.</p>
+                    <span class="view-btn">준비 중</span>
+                </div>
+            </a>
+        </div>
+
+        <div id="retouch-type" class="design-grid ig-grid">
+            <div class="ig-item" onclick="openRetouchSlider(0)">
+                <img src="https://www.dropbox.com/scl/fi/vgdginc3gjdzt2n8pblhc/0_-01.jpg?rlkey=zhydsqnpu4bbp36f0iboeslxn&st=xa5xrj02&raw=1" alt="보정 새 샘플">
+                <svg class="ig-multiple-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="14" height="14" rx="2" ry="2"></rect>
+                    <path d="M7 21h12a2 2 0 0 0 2-2V7"></path>
+                </svg>
+            </div>
+            <div class="ig-item" onclick="openRetouchSlider(1)">
+                <img src="https://www.dropbox.com/scl/fi/5n7n2vf5nc31wu079d4lc/4-01-web.jpg?rlkey=hv9omp2xlqi0clcelhqav7rx3&st=z7huja1l&raw=1" alt="보정 샘플 1">
+                <svg class="ig-multiple-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="14" height="14" rx="2" ry="2"></rect>
+                    <path d="M7 21h12a2 2 0 0 0 2-2V7"></path>
+                </svg>
+            </div>
+            <div class="ig-item" onclick="openRetouchSlider(2)">
+                <img src="https://www.dropbox.com/scl/fi/6abh7awy8l4j0pg8zdyz5/3-1.jpg?rlkey=9ofaz2rapebgldtci7sdd2i37&st=zzaqv9pa&raw=1" alt="보정 샘플 2">
+                <svg class="ig-multiple-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="14" height="14" rx="2" ry="2"></rect>
+                    <path d="M7 21h12a2 2 0 0 0 2-2V7"></path>
+                </svg>
+            </div>
+            <div class="ig-item" onclick="openRetouchSlider(3)">
+                <img src="https://www.dropbox.com/scl/fi/6q4i8hho3xfya36387va5/2-1.jpg?rlkey=2a5jtjmvbqzhry1qm6sr51era&st=tddkxkiw&raw=1" alt="보정 샘플 3">
+                <svg class="ig-multiple-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="14" height="14" rx="2" ry="2"></rect>
+                    <path d="M7 21h12a2 2 0 0 0 2-2V7"></path>
+                </svg>
+            </div>
+            <div class="ig-item" onclick="openRetouchSlider(4)">
+                <img src="https://www.dropbox.com/scl/fi/3m6wv4r9vxldxh2x841hz/1-1.jpg?rlkey=k09l7u6h4rqa4lyydgufjd8tx&st=j362u64c&raw=1" alt="보정 샘플 4">
+                <svg class="ig-multiple-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="14" height="14" rx="2" ry="2"></rect>
+                    <path d="M7 21h12a2 2 0 0 0 2-2V7"></path>
+                </svg>
+            </div>
+        </div>
+
+        <div id="price-type" class="design-grid">
+            
+            <div style="grid-column: 1 / -1; text-align: center; margin-bottom: 10px; padding-top: 20px;">
+                <h2 class="card-title" style="font-size: 24px; color: var(--text-dark);">모청 SET 가격 안내</h2>
+            </div>
+            
+            <div style="grid-column: 1 / -1; background: #fff; border: 1px solid var(--border-color); border-radius: 8px; padding: 40px 30px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.03); display: flex; flex-direction: column; position: relative;">
+                <div style="position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--accent-gold); color: #fff; font-size: 11px; padding: 4px 18px; border-radius: 20px; font-weight: 600; letter-spacing: 1.5px; box-shadow: 0 4px 10px rgba(201,169,110,0.3);">SPECIAL BENEFIT</div>
+                
+                <p style="font-size: 15px; color: #000; line-height: 1.6; margin-top: 5px; margin-bottom: 35px; font-weight: 700;">사진 보정 10장 이상 진행 시 드리는 헤딧의 특별한 혜택</p>
+                
+                <div style="display: flex; gap: 30px; justify-content: center; flex-wrap: wrap;">
+                    
+                    <div style="flex: 1 1 280px; max-width: 320px; border: 1px solid var(--text-dark); border-radius: 12px; padding: 40px 20px; position: relative; transition: transform 0.3s ease;">
+                        <div style="font-size: 18px; color: var(--text-dark); letter-spacing: 1.5px; margin-bottom: 20px; font-weight: 700; text-transform: uppercase;">Classic Set</div>
+                        
+                        <div style="margin-bottom: 25px;">
+                            <div style="font-size: 12px; color: var(--text-light); margin-bottom: 8px; word-break: keep-all; line-height: 1.4;">
+                                사진보정 10장(59,000원) + 클래식 모청(11,900원)<br>= <span style="text-decoration: line-through;">70,900원</span>
+                            </div>
+                            <div style="font-size: 26px; font-weight: 600; color: var(--text-dark);">59,000원</div>
+                        </div>
+                        
+                        <div style="border-top: 1px solid var(--border-color); padding-top: 25px;">
+                            <div style="color: var(--text-dark); font-size: 14px; font-weight: 400; letter-spacing: -0.5px; line-height: 1.6;">
+                                모바일 청첩장<br>
+                                <span style="font-size: 16px; font-weight: 700; text-decoration: underline; text-underline-offset: 5px; color: var(--accent-gold);">클래식 라인 무료</span><br>
+                                <span style="font-size: 12px; color: var(--text-light);">(정상가 11,900원 → 0원)</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="flex: 1 1 280px; max-width: 320px; border: 2px solid var(--accent-gold); border-radius: 12px; padding: 40px 20px; position: relative; background-color: rgba(201,169,110,0.02); transition: transform 0.3s ease;">
+                        <div style="font-size: 18px; color: var(--accent-gold); letter-spacing: 1.5px; margin-bottom: 20px; font-weight: 700; text-transform: uppercase;">Premium Set</div>
+                        
+                        <div style="margin-bottom: 25px;">
+                            <div style="font-size: 12px; color: var(--text-light); margin-bottom: 8px; word-break: keep-all; line-height: 1.4;">
+                                사진보정 10장(59,000원) + 프리미엄 모청(18,900원)<br>= <span style="text-decoration: line-through;">77,900원</span>
+                            </div>
+                            <div style="font-size: 26px; font-weight: 600; color: var(--text-dark);">66,000원</div>
+                        </div>
+                        
+                        <div style="border-top: 1px solid var(--border-color); padding-top: 25px;">
+                            <div style="color: var(--text-dark); font-size: 14px; font-weight: 400; letter-spacing: -0.5px; line-height: 1.6;">
+                                모바일 청첩장<br>
+                                <span style="font-size: 16px; font-weight: 700; text-decoration: underline; text-underline-offset: 5px; color: var(--accent-gold);">프리미엄 라인 11,900원 할인</span><br>
+                                <span style="font-size: 12px; color: var(--text-light);">(정상가 18,900원 → 7,000원)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div style="margin-top: 35px; font-size: 12px; color: #000; line-height: 1.8; font-weight: 400;">
+                    * 예약하기 탭에서 '모청 SET'를 선택해 주세요.<br>
+                    * 사진 보정 수량이 10장 이상일 경우에만 혜택 적용이 가능합니다.
+                </div>
+            </div>
+
+            <div style="grid-column: 1 / -1; border-top: 1px dashed var(--border-color); margin: 20px 0;"></div>
+
+            <div style="grid-column: 1 / -1; text-align: center; margin-top: 20px; margin-bottom: 10px;">
+                <h2 class="card-title" style="font-size: 24px; color: var(--text-dark); margin-bottom: 8px;">모바일 청첩장 가격 안내</h2>
+                <div style="font-size: 13px; color: var(--text-light);">[각 탭을 눌러 샘플을 확인해보세요.]</div>
+            </div>
+
+            <div style="grid-column: 1 / -1; display: flex; gap: 30px; flex-wrap: wrap; align-items: stretch;">
+                <div onclick="openClassicDetailWindow()" style="flex: 1 1 300px; background: #fff; border: 1px solid var(--border-color); border-radius: 8px; padding: 40px 30px; text-align: center; box-shadow: 0 10px 20px rgba(0,0,0,0.02); display: flex; flex-direction: column; cursor: pointer; transition: transform 0.3s ease, box-shadow 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 15px 30px rgba(0,0,0,0.08)';" onmouseout="this.style.transform='none'; this.style.boxShadow='0 10px 20px rgba(0,0,0,0.02)';">
+                    <h2 class="card-title" style="color: var(--text-dark); margin-bottom: 10px; font-size: 22px;">클래식</h2>
+                    <div style="font-size: 24px; font-weight: 600; color: var(--text-dark); margin-bottom: 20px;">11,900<span style="font-size: 16px; font-weight: 400;">원</span></div>
+                    <p style="font-size: 13px; color: var(--text-light); line-height: 1.6; margin-bottom: 30px; word-break: keep-all; min-height: 42px;">깔끔한 사진 중심의 베이직 디자인</p>
+                    <div style="border-top: 1px solid var(--border-color); padding-top: 20px; display: flex; flex-direction: column; justify-content: space-between; flex-grow: 1;">
+                        <ul style="list-style: none; padding: 0; margin: 0 0 20px 0; font-size: 13px; color: var(--text-dark); line-height: 1.8; text-align: left;">
+                            <li style="margin-bottom: 12px; display: flex; gap: 10px; align-items: flex-start;"><span style="color: var(--accent-gold);">✔</span> <div>메인 및 서브 화면에 사진 삽입</div></li>
+                            <li style="margin-bottom: 12px; display: flex; gap: 10px; align-items: flex-start;"><span style="color: var(--accent-gold);">✔</span> <div>갤러리 내 사진 <strong>최대 30장</strong></div></li>
+                            <li style="margin-bottom: 12px; display: flex; gap: 10px; align-items: flex-start;"><span style="color: var(--accent-gold);">✔</span> <div>Hedit 추천 저작권 무료 배경음악 (5종 중 택 1)</div></li>
+                            <li style="margin-bottom: 0; display: flex; gap: 10px; align-items: flex-start;"><span style="color: var(--accent-gold);">✔</span> <div>수정 <strong>최대 1회</strong> (오타 및 기본 정보 확인)</div></li>
+                        </ul>
+                        <div style="background-color: #f9f9f9; padding: 10px; border-radius: 6px; color: var(--accent-gold); font-weight: 600; font-size: 13px;">
+                            모청 SET 진행 시, 클래식 무료!
+                        </div>
+                    </div>
+                </div>
+
+                <div onclick="openPremiumDetailWindow()" style="flex: 1 1 300px; background: #fff; border: 2px solid var(--accent-gold); border-radius: 8px; padding: 40px 30px; text-align: center; box-shadow: 0 15px 30px rgba(201,169,110,0.15); display: flex; flex-direction: column; position: relative; cursor: pointer; transition: transform 0.3s ease, box-shadow 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 20px 40px rgba(201,169,110,0.25)';" onmouseout="this.style.transform='none'; this.style.boxShadow='0 15px 30px rgba(201,169,110,0.15)';">
+                    <div style="position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--accent-gold); color: #fff; font-size: 11px; padding: 4px 15px; border-radius: 20px; font-weight: 600; letter-spacing: 1px;">BEST</div>
+                    <h2 class="card-title" style="color: var(--accent-gold); margin-bottom: 10px; font-size: 22px;">프리미엄</h2>
+                    <div style="font-size: 24px; font-weight: 600; color: var(--text-dark); margin-bottom: 20px;">18,900<span style="font-size: 16px; font-weight: 400;">원</span></div>
+                    <p style="font-size: 13px; color: var(--text-light); line-height: 1.6; margin-bottom: 30px; word-break: keep-all; min-height: 42px;">사진과 영상이 어우러진 풍성하고 다채로운 디자인</p>
+                    <div style="border-top: 1px solid var(--border-color); padding-top: 20px; display: flex; flex-direction: column; justify-content: space-between; flex-grow: 1;">
+                        <ul style="list-style: none; padding: 0; margin: 0 0 20px 0; font-size: 13px; color: var(--text-dark); line-height: 1.8; text-align: left;">
+                            <li style="margin-bottom: 12px; display: flex; gap: 10px; align-items: flex-start;"><span style="color: var(--accent-gold);">✔</span> <div>메인 및 서브 화면에 <strong>사진 & 영상 모두 삽입</strong></div></li>
+                            <li style="margin-bottom: 12px; display: flex; gap: 10px; align-items: flex-start;"><span style="color: var(--accent-gold);">✔</span> <div>갤러리 내 사진 <strong>최대 40장</strong></div></li>
+                            <li style="margin-bottom: 12px; display: flex; gap: 10px; align-items: flex-start;"><span style="color: var(--accent-gold);">✔</span> <div>프리미엄 전용 탭 추가<br><span style="font-size: 11px; color: var(--text-light); line-height: 1.4; display: block; margin-top: 2px;">(식전영상, 신랑신부 소개, Q&A 문답, 엔딩 사진 및 문구)</span></div></li>
+                            <li style="margin-bottom: 12px; display: flex; gap: 10px; align-items: flex-start;"><span style="color: var(--accent-gold);">✔</span> <div><strong>배경음악 자유 선택</strong><br><span style="font-size: 11px; color: var(--text-light); line-height: 1.4; display: block; margin-top: 2px;">(Hedit 추천 음원 10종 중 택1 or 개별 음원 파일 전달 시 적용 가능)</span></div></li>
+                            <li style="margin-bottom: 0; display: flex; gap: 10px; align-items: flex-start;"><span style="color: var(--accent-gold);">✔</span> <div>수정 <strong>최대 2회</strong> (오타, 누락 및 기본 디자인 밸런스 확인)</div></li>
+                        </ul>
+                        <div style="background-color: rgba(201,169,110,0.1); padding: 10px; border-radius: 6px; color: var(--accent-gold); font-weight: 600; font-size: 13px;">
+                            모청 SET 진행 시, 프리미엄 11,900원 할인!
+                        </div>
+                    </div>
+                </div>
+            </div> 
+
+            <div style="grid-column: 1 / -1; background: #fff; border: 1px solid var(--border-color); border-radius: 8px; padding: 30px; margin-top: 10px; margin-bottom: 20px;">
+                <h3 class="card-title" style="font-size: 18px; margin-bottom: 20px; color: var(--text-dark); text-align: center;">모바일 청첩장 추가 옵션</h3>
+                <div style="display: flex; gap: 30px; flex-wrap: wrap; justify-content: center;">
+                    <div style="flex: 1 1 250px; border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; text-align: center; background: #fafafa;">
+                        <div style="width: 100%; aspect-ratio: 16 / 9; background-color: #eee; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid var(--border-color); overflow: hidden;">
+                            <img src="https://www.dropbox.com/scl/fi/crjlxw09ec5zzjd9qebtg/.jpg?rlkey=l3w63mtwjcc8e3g2cjz0383cr&st=rm4k9tss&raw=1" alt="고객 손글씨 샘플" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <div style="padding: 20px;">
+                            <div style="font-weight: 600; font-size: 15px; color: var(--text-dark); margin-bottom: 8px;">고객 손글씨 추가</div>
+                            <div style="color: var(--accent-gold); font-weight: 600; margin-bottom: 10px;">+ 7,000원</div>
+                            <div style="color: var(--text-light); font-size: 12px; line-height: 1.6; word-break: keep-all;">신랑·신부님의 손글씨를 따서<br>메인이나 인사말에 넣어드려요.</div>
+                        </div>
+                    </div>
+                    
+                    <div style="flex: 1 1 250px; border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; text-align: center; background: #fafafa;">
+                        <div style="width: 100%; aspect-ratio: 16 / 9; background-color: #eee; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid var(--border-color); overflow: hidden;">
+                            <img src="https://www.dropbox.com/scl/fi/sgisrp50u8x1h4ulauybb/.jpg?rlkey=7pub4cz6wjzq7qec8ad689cpc&st=9dm3b8cd&raw=1" alt="일러스트 이미지 샘플" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <div style="padding: 20px;">
+                            <div style="font-weight: 600; font-size: 15px; color: var(--text-dark); margin-bottom: 8px;">일러스트 주문제작</div>
+                            <div style="color: var(--accent-gold); font-weight: 600; margin-bottom: 10px;">+ 15,000원</div>
+                            <div style="color: var(--text-light); font-size: 12px; line-height: 1.6; word-break: keep-all;">세상에 하나뿐인 두 분의 일러스트를 직접 제작해<br>더욱 생동감 있는 모바일 청첩장을 완성해 드려요.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="grid-column: 1 / -1; background: #fff; border: 1px solid var(--border-color); border-radius: 8px; padding: 30px; margin-top: -10px; margin-bottom: 20px;">
+                <h3 class="card-title" style="font-size: 16px; margin-bottom: 15px; color: var(--text-dark);">[ 모바일 청첩장 안내 사항 ]</h3>
+                <ul style="list-style: none; padding: 0; margin: 0; font-size: 13px; color: var(--text-dark); line-height: 1.8;">
+                    <li style="margin-bottom: 8px;">• <strong>제작 방식</strong> : Hedit의 모바일 청첩장은 1:1 주문제작형 서비스입니다.</li>
+                    <li style="margin-bottom: 8px;">• <strong>제작 기간</strong> : 입금 및 모든 자료 전달이 완료된 시점을 기준으로 영업일 3일 이내</li>
+                    <li style="margin-bottom: 8px;">• <strong>유지 기간</strong> : 예식일로부터 30일 후 데이터 보호를 위해 자동 삭제</li>
+                    <li>• <strong>환불 안내</strong> : 맞춤 제작 특성상 작업이 시작된 이후에는 단순 변심에 의한 취소 및 환불이 불가합니다.</li>
+                </ul>
+            </div>
+
+            <div style="grid-column: 1 / -1; border-top: 1px dashed var(--border-color); margin: 20px 0;"></div>
+
+            <div style="grid-column: 1 / -1; text-align: center; margin-top: 20px; margin-bottom: 10px;">
+                <h2 class="card-title" style="font-size: 24px; color: var(--text-dark); margin-bottom: 8px;">사진 보정 가격 안내</h2>
+            </div>
+            
+            <div style="grid-column: 1 / -1; display: flex; gap: 30px; flex-wrap: wrap; align-items: stretch;">
+                <div onclick="openWorkPeriodModal('normal')" style="flex: 1 1 300px; background: #fff; border: 1px solid var(--border-color); border-radius: 8px; padding: 40px 30px; text-align: center; box-shadow: 0 10px 20px rgba(0,0,0,0.02); display: flex; flex-direction: column; cursor: pointer; transition: transform 0.3s ease, box-shadow 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 15px 30px rgba(0,0,0,0.08)';" onmouseout="this.style.transform='none'; this.style.boxShadow='0 10px 20px rgba(0,0,0,0.02)';">
+                    <h2 class="card-title" style="color: var(--text-dark); margin-bottom: 10px; font-size: 20px;">기본 보정</h2>
+                    <div style="font-size: 24px; font-weight: 600; color: var(--text-dark); margin-bottom: 20px;">5,900<span style="font-size: 16px; font-weight: 400;">원 / 1장</span></div>
+                    <div style="font-size: 12px; color: var(--text-light); line-height: 1.6; text-align: left; background: #f9f9f9; padding: 15px; border-radius: 6px;">
+                        • <u style="font-weight:600;">본연의 아름다움을 살리는 자연스럽고 디테일한 보정</u>을 추구합니다.<br>
+                        • 수량에 따라 기간이 상이할 수 있으니 사전 문의 부탁드립니다.
+                    </div>
+                </div>
+
+                <div onclick="openWorkPeriodModal('urgent')" style="flex: 1 1 300px; background: #fff; border: 1px solid var(--border-color); border-radius: 8px; padding: 40px 30px; text-align: center; box-shadow: 0 10px 20px rgba(0,0,0,0.02); display: flex; flex-direction: column; cursor: pointer; transition: transform 0.3s ease, box-shadow 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 15px 30px rgba(0,0,0,0.08)';" onmouseout="this.style.transform='none'; this.style.boxShadow='0 10px 20px rgba(0,0,0,0.02)';">
+                    <h2 class="card-title" style="color: var(--text-dark); margin-bottom: 10px; font-size: 20px;">긴급 보정</h2>
+                    <div style="font-size: 24px; font-weight: 600; color: var(--text-dark); margin-bottom: 20px;">7,900<span style="font-size: 16px; font-weight: 400;">원 / 1장</span></div>
+                    <div style="font-size: 12px; color: var(--text-light); line-height: 1.6; text-align: left; background: #f9f9f9; padding: 15px; border-radius: 6px;">
+                        • <u style="font-weight:600;">추가 요청이 없을 시, 최대한 1일 이내</u>에 작업해 드립니다.<br>
+                        • 수량에 따라 기간이 상이할 수 있으니 사전 문의 부탁드립니다.
+                    </div>
+                </div>
+            </div> 
+
+            <div style="grid-column: 1 / -1; background: #fff; border: 1px solid var(--border-color); border-radius: 8px; padding: 30px; margin-top: -10px;">
+                <h3 class="card-title" style="font-size: 16px; margin-bottom: 15px; color: var(--text-dark);">[ 사진 보정 안내 사항 ]</h3>
+                <ul style="list-style: none; padding: 0; margin: 0; font-size: 13px; color: var(--text-dark); line-height: 1.8;">
+                    <li style="margin-bottom: 8px;">• <strong>기준 인원</strong> : 1장당 2인 기준 <span style="color: var(--text-light); font-size: 12px;">(인원 추가 시 인당 +1,000원)</span></li>
+                    <li style="margin-bottom: 8px;">• <strong>재수정</strong> : 총 3회 무료 가능</li>
+                    <li style="margin-bottom: 8px;">• <strong>환불 안내</strong> : 작업 특성상 주관적인 만족도 차이나 원본 사진 상태로 인한 환불은 불가합니다.</li>
+                    <li>• <strong>상담 및 조율</strong> : 모든 안내 사항은 원본 사진 상태에 따라 유연하게 조정될 수 있으며, 대표와 1:1 상담을 통해 충분히 조율 가능합니다.</li>
+                </ul>
+            </div>
+            
+        </div>
+
+        <div id="inquiry-type" class="design-grid">
+            <div style="grid-column: 1 / -1; text-align: center; padding: 40px 20px; background: #fff; border: 1px solid var(--border-color); border-radius: 8px;">
+                <h2 class="card-title" style="margin-bottom: 20px;">예약•문의하기</h2>
+                <div style="font-size: 14px; color: var(--text-light); line-height: 1.8;">
+                    문의 사항은 아래 [카카오톡] 아이콘을 클릭하여 헤딧 채널로 문의해 주세요.
+                    <div style="margin-top: 25px;">
+                        <a href="http://pf.kakao.com/_ywxmxhX/chat" target="_blank" rel="noopener noreferrer">
+                            <img src="./kakao_icon.png" alt="카카오톡 문의하기" style="width: 60px; height: 60px; object-fit: contain; margin: 0 auto; display: block; border-radius: 5px;">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="retouch-slider-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 10005; align-items: center; justify-content: center; flex-direction: column;">
+        <div id="retouch-loader-container" style="display: none; flex-direction: column; align-items: center;">
+            <div class="loader"></div>
+            <div style="color: #fff; font-size: 13px; letter-spacing: 1px;">이미지를 불러오는 중입니다...</div>
+        </div>
+        <div id="retouch-content-container" style="display: none; flex-direction: column; align-items: center; width: 100%;">
+            <span onclick="closeRetouchSlider()" style="position: absolute; top: 20px; right: 20px; font-size: 35px; cursor: pointer; color: #fff; z-index: 10006;">&times;</span>
+            <div style="position: relative; width: 100%; max-width: 600px; display: flex; align-items: center; justify-content: center;">
+                <span id="retouch-prev-btn" onclick="changeRetouchImg(-1)" style="position: absolute; left: 10px; font-size: 40px; color: #fff; cursor: pointer; user-select: none; z-index: 10006; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">&#10094;</span>
+                <img id="retouch-modal-img" src="" style="width: 100%; max-height: 80vh; object-fit: contain;">
+                <span id="retouch-next-btn" onclick="changeRetouchImg(1)" style="position: absolute; right: 10px; font-size: 40px; color: #fff; cursor: pointer; user-select: none; z-index: 10006; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">&#10095;</span>
+            </div>
+            <div id="retouch-modal-counter" style="color: #fff; font-size: 14px; margin-top: 15px; font-family: var(--font-main); letter-spacing: 2px;">1 / 5</div>
+        </div>
+    </div>
+
+    <div id="work-period-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 10003; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box; backdrop-filter: blur(3px);">
+        <div style="background: var(--bg-color); width: 100%; max-width: 400px; border: 1px solid var(--border-color); border-radius: 8px; padding: 40px 30px; position: relative; box-sizing: border-box; box-shadow: 0 15px 30px rgba(0,0,0,0.15);">
+            <span onclick="document.getElementById('work-period-modal').style.display='none'" style="position: absolute; top: 15px; right: 20px; font-size: 28px; cursor: pointer; color: var(--text-light);">&times;</span>
+            <h2 id="work-period-title" class="card-title" style="text-align: center; margin-bottom: 20px;">수량별 작업 기간</h2>
+            
+            <table style="width: 100%; border-collapse: collapse; text-align: center; font-size: 14px; font-family: var(--font-main); margin-bottom: 20px;">
+                <thead>
+                    <tr style="border-bottom: 2px solid var(--text-dark);">
+                        <th style="padding: 12px; font-weight: 600; color: var(--text-dark);">수량</th>
+                        <th style="padding: 12px; font-weight: 600; color: var(--text-dark);">작업 기간</th>
+                    </tr>
+                </thead>
+                <tbody id="work-period-tbody">
+                    </tbody>
+            </table>
+            
+            <div style="font-size: 12px; color: var(--text-light); text-align: center; line-height: 1.8;">
+                * 모든 안내는 주말/공휴일을 제외한 영업일 기준입니다.<br>
+                * 작업 기간은 <strong>입금 및 사진 접수 완료일 다음 날부터</strong> 카운트됩니다.
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        © 2026 HEDIT. All rights reserved.
+    </footer>
+
+    <script>
+        // 상단 고정 메뉴바 스크롤 오토하이드 기능
+        let lastScrollTop = 0;
+        window.addEventListener('scroll', function() {
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const tabContainer = document.querySelector('.tab-container');
+            if (scrollTop > lastScrollTop && scrollTop > 50) { tabContainer.style.transform = 'translateY(-100%)'; }
+            else { tabContainer.style.transform = 'translateY(0)'; }
+            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; 
+        });
+
+        const retouchData = [
+            [
+                'https://www.dropbox.com/scl/fi/vgdginc3gjdzt2n8pblhc/0_-01.jpg?rlkey=zhydsqnpu4bbp36f0iboeslxn&st=xa5xrj02&raw=1',
+                'https://www.dropbox.com/scl/fi/xv7f9biyj4ul1l8gthdgh/0_-02.jpg?rlkey=j3rr51330y6y511dbgnmrvweu&st=61xi2k0x&raw=1',
+                'https://www.dropbox.com/scl/fi/r2i6wbp0leabs2p0xtkrg/0_-03.jpg?rlkey=3zszimpkxmgkmzd91vosqdnbz&st=wllct48n&raw=1',
+                'https://www.dropbox.com/scl/fi/qgorwz9m9zqizhuvmv1po/0_-04.jpg?rlkey=9r3l72jywwt4e1hixablrv8tt&st=eyc9f3fm&raw=1',
+                'https://www.dropbox.com/scl/fi/49gthd7dtl3bk4xfob6m0/0_-05.jpg?rlkey=ovens86znj785ew2m76pel3zh&st=3r3hukxl&raw=1',
+                'https://www.dropbox.com/scl/fi/itor07bmndr43q9k2knpu/0_-06.jpg?rlkey=xkskbo5337hprz03y4h4pk8m0&st=t0c6y4lv&raw=1',
+                'https://www.dropbox.com/scl/fi/r4ee5ujsxu8fm4wt8na8r/0_-14.jpg?rlkey=hqpat1ldfe36yqsg82cv9srao&st=484zr8le&raw=1',
+                'https://www.dropbox.com/scl/fi/r0row705jft7byjlxyx9l/0_-15.jpg?rlkey=f5r7aeizbp224qg18t4708n9e&st=wpl92sot&raw=1'
+            ],
+            [
+                'https://www.dropbox.com/scl/fi/5n7n2vf5nc31wu079d4lc/4-01-web.jpg?rlkey=hv9omp2xlqi0clcelhqav7rx3&st=z7huja1l&raw=1',
+                'https://www.dropbox.com/scl/fi/phxnb7v5qa9qapgflbqyw/4-02-web.jpg?rlkey=w3se85ulsxs90krxqle78jegt&st=cvz919na&raw=1',
+                'https://www.dropbox.com/scl/fi/v263l31y9q6xqqtb8lnfi/4-03-web.jpg?rlkey=sg4tkkdh0i5es4hi56si6z62s&st=3jqrzn3n&raw=1',
+                'https://www.dropbox.com/scl/fi/h79yjoyzkfihya0duy632/4-04-web.jpg?rlkey=v1t0shht0z5j9joeoqobx6alk&st=zjeyi3e7&raw=1',
+                'https://www.dropbox.com/scl/fi/9c6cl3yr2y4qvkpzygdzs/4-05-web.jpg?rlkey=zcl3bmw7g8vq0wd3096wg3k5w&st=y2lvwulg&raw=1',
+                'https://www.dropbox.com/scl/fi/ejmy82cjsz35u5g64cj5h/4-06-web.jpg?rlkey=pkt255b0fkd4t72n4ffd4wwmt&st=aig6or3i&raw=1',
+                'https://www.dropbox.com/scl/fi/evc2h7zb24mb09xugrx8i/3-5.jpg?rlkey=armn6pzwc0vytnb7jyuf55hkk&st=pd5c6jrm&raw=1'
+            ],
+            [
+                'https://www.dropbox.com/scl/fi/6abh7awy8l4j0pg8zdyz5/3-1.jpg?rlkey=9ofaz2rapebgldtci7sdd2i37&st=zzaqv9pa&raw=1',
+                'https://www.dropbox.com/scl/fi/cvgcf40gzyyqeh5yddxnh/3-2.jpg?rlkey=kd9pjq5k14ub1152bc1a3jqi2&st=0mxcv5p5&raw=1',
+                'https://www.dropbox.com/scl/fi/1zqba2rma26p9ms9zlu7n/3-3.jpg?rlkey=2lfzyfe5evganyc0xq816v1hs&st=bb8kqszk&raw=1',
+                'https://www.dropbox.com/scl/fi/blksfc0j0v996quspkgzv/3-4.jpg?rlkey=xqmz839x5k9rfslitf1o87vti&st=8bn7c8cc&raw=1',
+                'https://www.dropbox.com/scl/fi/evc2h7zb24mb09xugrx8i/3-5.jpg?rlkey=armn6pzwc0vytnb7jyuf55hkk&st=pd5c6jrm&raw=1'
+            ],
+            [
+                'https://www.dropbox.com/scl/fi/6q4i8hho3xfya36387va5/2-1.jpg?rlkey=2a5jtjmvbqzhry1qm6sr51era&st=tddkxkiw&raw=1',
+                'https://www.dropbox.com/scl/fi/kh0clwr9t2085ils2gp4f/2-2.jpg?rlkey=eqybopgewi4qupv6idcllub3e&st=eocorhq5&raw=1',
+                'https://www.dropbox.com/scl/fi/kh0clwr9t2085ils2gp4f/2-2.jpg?rlkey=eqybopgewi4qupv6idcllub3e&st=eocorhq5&raw=1',
+                'https://www.dropbox.com/scl/fi/9runibpcz6twl3s0mmusf/2-4.jpg?rlkey=avb5osuga2dq3wugl9ltfkxat&st=d2ugf8v3&raw=1',
+                'https://www.dropbox.com/scl/fi/evc2h7zb24mb09xugrx8i/3-5.jpg?rlkey=armn6pzwc0vytnb7jyuf55hkk&st=pd5c6jrm&raw=1'
+            ],
+            [
+                'https://www.dropbox.com/scl/fi/3m6wv4r9vxldxh2x841hz/1-1.jpg?rlkey=k09l7u6h4rqa4lyydgufjd8tx&st=j362u64c&raw=1',
+                'https://www.dropbox.com/scl/fi/sn7xw6nwhy6douz8grsdx/1-2.jpg?rlkey=d8ktxfz7sap56hdpuopwu12kc&st=wwgyxtag&raw=1',
+                'https://www.dropbox.com/scl/fi/1yf6nbx5bmjivkzb56gpv/1-3.jpg?rlkey=ob62bjel86jay8d8rvdksxfcl&st=e3qe1kkg&raw=1',
+                'https://www.dropbox.com/scl/fi/yump3qtd6ygs2yclda8jo/1-4.jpg?rlkey=6yvfgc8jqrqm3ac6kjhftmlfd&st=oxin1yit&raw=1',
+                'https://www.dropbox.com/scl/fi/evc2h7zb24mb09xugrx8i/3-5.jpg?rlkey=armn6pzwc0vytnb7jyuf55hkk&st=pd5c6jrm&raw=1'
+            ]
+        ];
+
+        let currentRetouchPost = 0;
+        let currentRetouchImg = 0;
+
+        function openRetouchSlider(postIndex) {
+            currentRetouchPost = postIndex;
+            currentRetouchImg = 0;
+            const modal = document.getElementById('retouch-slider-modal');
+            const loader = document.getElementById('retouch-loader-container');
+            const content = document.getElementById('retouch-content-container');
+            modal.style.display = 'flex';
+            loader.style.display = 'flex';
+            content.style.display = 'none';
+            const postImages = retouchData[currentRetouchPost];
+            let loadedCount = 0;
+            postImages.forEach(src => {
+                const img = new Image();
+                img.onload = () => {
+                    loadedCount++;
+                    if (loadedCount === postImages.length) {
+                        loader.style.display = 'none';
+                        content.style.display = 'flex';
+                        updateRetouchModalView();
+                    }
+                };
+                img.onerror = () => {
+                    loadedCount++;
+                    if (loadedCount === postImages.length) {
+                        loader.style.display = 'none';
+                        content.style.display = 'flex';
+                        updateRetouchModalView();
+                    }
+                };
+                img.src = src;
+            });
+        }
+
+        function closeRetouchSlider() { document.getElementById('retouch-slider-modal').style.display = 'none'; }
+        function changeRetouchImg(dir) {
+            const postImages = retouchData[currentRetouchPost];
+            currentRetouchImg += dir;
+            if (currentRetouchImg < 0) currentRetouchImg = 0;
+            if (currentRetouchImg >= postImages.length) currentRetouchImg = postImages.length - 1;
+            updateRetouchModalView();
+        }
+        function updateRetouchModalView() {
+            const postImages = retouchData[currentRetouchPost];
+            document.getElementById('retouch-modal-img').src = postImages[currentRetouchImg];
+            document.getElementById('retouch-modal-counter').innerText = (currentRetouchImg + 1) + ' / ' + postImages.length;
+            document.getElementById('retouch-prev-btn').style.display = currentRetouchImg === 0 ? 'none' : 'block';
+            document.getElementById('retouch-next-btn').style.display = currentRetouchImg === postImages.length - 1 ? 'none' : 'block';
+        }
+
+        function openWorkPeriodModal(type) {
+            const title = document.getElementById('work-period-title');
+            const tbody = document.getElementById('work-period-tbody');
+            if (type === 'normal') {
+                title.innerText = '기본 보정 수량별 작업 기간';
+                tbody.innerHTML = `<tr style="border-bottom: 1px solid var(--border-color);"><td style="padding: 12px;">1~5장</td><td style="padding: 12px;">3일 이내</td></tr><tr style="border-bottom: 1px solid var(--border-color);"><td style="padding: 12px;">6~10장</td><td style="padding: 12px;">5일 이내</td></tr><tr style="border-bottom: 1px solid var(--border-color);"><td style="padding: 12px;">11~15장</td><td style="padding: 12px;">7일 이내</td></tr><tr><td style="padding: 12px;">16장~</td><td style="padding: 12px;">별도 문의</td></tr>`;
+            } else {
+                title.innerText = '긴급 보정 수량별 작업 기간';
+                tbody.innerHTML = `<tr style="border-bottom: 1px solid var(--border-color);"><td style="padding: 12px;">1~5장</td><td style="padding: 12px;">1~2일 이내</td></tr><tr style="border-bottom: 1px solid var(--border-color);"><td style="padding: 12px;">6~10장</td><td style="padding: 12px;">3~4일 이내</td></tr><tr style="border-bottom: 1px solid var(--border-color);"><td style="padding: 12px;">11~15장</td><td style="padding: 12px;">별도 문의</td></tr><tr><td style="padding: 12px;">16장~</td><td style="padding: 12px;">별도 문의</td></tr>`;
+            }
+            document.getElementById('work-period-modal').style.display = 'flex';
+        }
+
+        function showCategory(categoryId) {
+            const buttons = document.querySelectorAll('.tab-btn, .sub-tab-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            const grids = document.querySelectorAll('.design-grid');
+            grids.forEach(grid => grid.classList.remove('active'));
+            if (event && event.target) {
+                let targetBtn = event.target;
+                targetBtn.classList.add('active');
+                if (targetBtn.classList.contains('sub-tab-btn')) { targetBtn.closest('.dropdown').querySelector('.tab-btn').classList.add('active'); }
+            }
+            document.getElementById(categoryId).classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleDropdown(e) {
+            e.stopPropagation();
+            document.getElementById('mobile-dropdown').classList.toggle('show');
+        }
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.dropdown')) {
+                const dropdown = document.getElementById('mobile-dropdown');
+                if (dropdown) dropdown.classList.remove('show');
+            }
+        });
+
+        function openPlaceholderAlert(designName) { alert('[' + designName + '] 예쁜 샘플을 준비 중입니다!\\n\\n조금만 기다려주세요 😊'); }
+
+        // [HEDIT!] 클래식 라인 상세 안내창 오픈 
+        function openClassicDetailWindow() {
+            const htmlContent = `<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HEDIT | 클래식 라인 상세 안내</title>
+    <style>
+        body, html { margin: 0; padding: 0; font-family: 'Malgun Gothic', sans-serif; background: #f9f9f9; }
+        
+        .top-bar {
+            position: fixed; top: 0; left: 0; width: 100%; height: 70px; 
+            background: #fff; border-bottom: 1px solid #eee; z-index: 9999;
+            display: flex; justify-content: center; align-items: center;
+        }
+        .link-btn {
+            display: inline-block; padding: 12px 30px; background: #222; color: #fff; 
+            text-decoration: none; border-radius: 30px; font-weight: 600; font-size: 14px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1); cursor: pointer; transition: background 0.2s;
+        }
+        .link-btn:hover { background: #444; }
+
+        .popup-layout { 
+            display: flex; width: 100%; 
+            margin-top: 70px; flex-direction: row; 
+            align-items: stretch;
+            cursor: pointer;
+        }
+        
+        .left-col {
+            flex: 1; display: flex; justify-content: center; align-items: flex-start; 
+            background: #eaeaea; border-right: 1px solid #ddd;
+        }
+        
+        .phone-wrapper {
+            width: 360px; height: 4900px;
+            border: 14px solid #111; border-radius: 40px;
+            background: #fff; box-shadow: 0 30px 60px rgba(0,0,0,0.2);
+            overflow: hidden; position: relative;
+            margin-top: 40px; margin-bottom: 40px;
+        }
+
+        .touch-info {
+            position: absolute; top: 40px; left: 0; width: 100%; text-align: center;
+            font-size: 20px; font-weight: 800; color: #000; 
+            pointer-events: none; transition: opacity 0.5s ease;
+            font-family: 'Malgun Gothic', sans-serif; line-height: 1.5; z-index: 101;
+        }
+        
+        .phone-wrapper iframe {
+            width: 100%; height: 100%; border: none; display: block;
+            pointer-events: auto; 
+        }
+        
+        .right-col {
+            flex: 1; background: #fff;
+            display: flex; flex-direction: column;
+            padding-top: 40px; padding-bottom: 40px; 
+            padding-left: 40px; padding-right: 40px;
+            box-sizing: border-box;
+        }
+
+        .right-scroll-content {
+            width: 100%; max-width: 450px; margin: 0 auto;
+            display: flex; flex-direction: column; height: 100%;
+        }
+        
+        .header-box { margin-bottom: 40px; }
+        .header-title { font-size: 32px; font-weight: 700; color: #222; margin-bottom: 12px; letter-spacing: 1px; }
+        
+        .desc-group {
+            position: relative; width: 100%;
+            background: #fff; border: 2px solid #c9a96e; border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03); overflow: hidden;
+            transition: opacity 0.3s, transform 0.3s; opacity: 0.3;
+        }
+        .desc-group.active { opacity: 1; transform: scale(1.02); box-shadow: 0 15px 40px rgba(201,169,110,0.15); z-index: 10; }
+        
+        #g1 { margin-bottom: 400px; }
+        #g2 { margin-bottom: 800px; }
+        #g4 { margin-bottom: 700px; }
+        #g5 { margin-bottom: 400px; }
+        #g6 { margin-bottom: auto; }
+        #g7 { margin-bottom: 100px; } 
+        
+        .desc-card { padding: 25px 30px; border-bottom: 1px solid #f5f5f5; }
+        .desc-card:last-child { border-bottom: none; }
+        
+        .badge { display: inline-block; background: #111; color: #fff; font-size: 11px; font-weight: 600; padding: 5px 12px; border-radius: 4px; margin-bottom: 8px; }
+        .card-title { font-size: 15px; font-weight: 700; color: #222; margin-bottom: 6px; line-height: 1.4; }
+        .card-text { font-size: 13px; color: #555; line-height: 1.5; }
+        
+        /* [HEDIT!] 모바일 Sticky & Bottom Sheet 레이아웃 적용 */
+        @media (max-width: 900px) {
+            .popup-layout { flex-direction: column !important; margin-top: 70px; }
+            
+            /* 1. 청첩장 화면을 고정 (화면 전체 차지) */
+            .left-col { 
+                position: fixed; top: 70px; left: 0; width: 100%; height: calc(100vh - 70px); 
+                z-index: 10; padding: 0; border: none; background: #fff; box-sizing: border-box;
+            }
+            .phone-wrapper { 
+                width: 100%; max-width: 100%; height: 100% !important; margin: 0; border: none; border-radius: 0; 
+            }
+            
+            /* 2. 설명칸을 바텀시트처럼 겹치게 설정 */
+            .right-col { 
+                position: relative; z-index: 50; padding: 0; width: 100%; 
+                background: transparent; pointer-events: none; /* 뒤쪽 청첩장 터치 허용 */
+            }
+            .right-scroll-content { 
+                padding-top: calc(100vh - 180px); /* 처음에는 첫 카드가 맨 밑에 살짝 보이도록 설정 */
+                padding-bottom: 100px; 
+            }
+            
+            .header-box { display: none; }
+            
+            .desc-group { 
+                pointer-events: auto; /* 설명 카드는 터치 가능하게 */
+                background: rgba(255, 255, 255, 0.95); 
+                backdrop-filter: blur(5px);
+                margin-left: 15px !important; margin-right: 15px !important; width: auto;
+                border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            }
+            
+            /* 바텀 시트 느낌의 얇은 손잡이 추가 */
+            #g1::before {
+                content: ''; display: block; width: 36px; height: 4px; background: #ddd; border-radius: 2px; margin: 15px auto 0;
+            }
+            
+            /* 스크롤 동기화를 위해 margin 유지하되, 일부 최적화 */
+            #g1 { margin-bottom: 400px !important; }
+            #g2 { margin-bottom: 800px !important; }
+            #g4 { margin-bottom: 700px !important; }
+            #g5 { margin-bottom: 400px !important; }
+            #g6 { margin-bottom: 800px !important; } /* auto 대신 명시적 값으로 전체 스크롤 길이 확보 */
+            #g7 { margin-bottom: 100px !important; }
+        }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <a class="link-btn" onclick="if(window.opener && !window.opener.closed){window.opener.showCategory('menu-type'); window.opener.focus(); window.close();}else{location.href='index.html';}">실제 모바일청첩장 샘플 보기 ↗</a>
+    </div>
+
+    <div class="popup-layout" id="popup-area">
+        <div class="left-col">
+            <div class="phone-wrapper" id="left-scroll">
+                <div class="touch-info" id="touch-msg">화면을 한 번 터치하면<br>음악이 재생됩니다.</div>
+                <iframe src="https://heditphoto-web.github.io/hedit_Classic_Serene-Dove/" allow="autoplay; fullscreen" scrolling="no" id="sample-iframe"></iframe>
+            </div>
+        </div>
+        
+        <div class="right-col">
+            <div class="right-scroll-content" id="right-content">
+                <div class="header-box" id="g-header">
+                    <div class="header-title">Classic Line</div>
+                </div>
+                
+                <div class="desc-group group-item active" id="g1">
+                    <div class="desc-card">
+                        <div class="badge">스마트 메뉴바</div>
+                        <div class="card-title">원하는 정보를 빠르게 확인해요.</div>
+                        <div class="card-text">• 화면을 올리면 나타나는 메뉴바로 즉시 이동 가능<br>• 타사에서는 찾아보기 힘든 스마트한 구성</div>
+                    </div>
+                    <div class="desc-card">
+                        <div class="badge">메인 커버 사진</div>
+                        <div class="card-title">아름다운 첫인상을 연출해요.</div>
+                        <div class="card-text">• 가장 보여주고 싶은 메인 사진 설정</div>
+                    </div>
+                    <div class="desc-card">
+                        <div class="badge">신랑·신부 성함 / 예식 일시</div>
+                        <div class="card-title">단정하고 세련된 타이포그래피</div>
+                        <div class="card-text">• 국문 또는 영문 중 취향에 맞춰 선택 가능</div>
+                    </div>
+                </div>
+                
+                <div class="desc-group group-item" id="g2">
+                    <div class="desc-card">
+                        <div class="badge">초대글</div>
+                        <div class="card-title">진심이 담긴 우리만의 이야기를 전해요.</div>
+                        <div class="card-text">• 원하는 내용으로 초대글 작성<br>• 신랑·신부님의 손글씨로 변경 가능 (+7,000원)</div>
+                    </div>
+                    <div class="desc-card">
+                        <div class="badge">초대글 사진</div>
+                        <div class="card-title">초대글의 감성을 더하는 요소</div>
+                        <div class="card-text">• 인사말과 어우러지는 사진 설정</div>
+                    </div>
+                    <div class="desc-card">
+                        <div class="badge">원클릭 축하 연락</div>
+                        <div class="card-title">복잡한 과정 없이 마음 전해요.</div>
+                        <div class="card-text">• 버튼 한 번으로 전화 및 문자 연결<br>• 신랑·신부 및 양가 부모님 연락처 모두 지원</div>
+                    </div>
+                </div>
+
+                <div class="desc-group group-item" id="g4">
+                    <div class="desc-card">
+                        <div class="badge">지도 보기</div>
+                        <div class="card-title">장소와 오시는 길을 상세히 안내해요.</div>
+                        <div class="card-text">• 네이버 지도 연동<br>• 하객의 편의를 돕는 상세한 교통편 안내</div>
+                    </div>
+                </div>
+
+                <div class="desc-group group-item" id="g5">
+                    <div class="desc-card">
+                        <div class="badge">갤러리</div>
+                        <div class="card-title">두 사람의 소중한 순간들을 담아요.</div>
+                        <div class="card-text">• 최대 30장까지 넉넉한 사진 업로드<br>• 사진 확대 방지 기능 기본 적용</div>
+                    </div>
+                </div>
+
+                <div class="desc-group group-item" id="g6">
+                    <div class="desc-card">
+                        <div class="badge">안내 사항</div>
+                        <div class="card-title">하객분들을 위한 맞춤 정보를 전달해요.</div>
+                        <div class="card-text">• 식사, 주차, 전세버스, 답례품 등 무제한 추가 가능</div>
+                    </div>
+                </div>
+
+                <div class="desc-group group-item" id="g7">
+                    <div class="desc-card">
+                        <div class="badge">계좌 정보</div>
+                        <div class="card-title">축의금 계좌를 간편하게 안내해요.</div>
+                        <div class="card-text">• 번거로움 없는 원클릭 계좌번호 복사 기능</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 빈 공간이나 설명 카드 클릭 시 메시지가 지워지도록 설정
+        document.getElementById('popup-area').addEventListener('click', () => {
+            const msg = document.getElementById('touch-msg');
+            if(msg) msg.style.opacity = '0';
+        });
+
+        const groups = document.querySelectorAll('.group-item');
+        const iframe = document.getElementById('sample-iframe');
+        
+        function updateHighlights() {
+            let activeIndex = 0;
+            let minDiff = Infinity;
+            const checkBase = window.innerHeight / 2;
+            
+            groups.forEach((group, index) => {
+                const rect = group.getBoundingClientRect();
+                const centerDiff = Math.abs(rect.top + rect.height/2 - checkBase);
+                if (centerDiff < minDiff) {
+                    minDiff = centerDiff;
+                    activeIndex = index;
+                }
+            });
+            
+            groups.forEach((g, i) => {
+                if(i === activeIndex) g.classList.add('active');
+                else g.classList.remove('active');
+            });
+
+            // [HEDIT!] 모바일 Sticky 모드 시 고정된 Iframe 스크롤 자동 제어
+            if (window.innerWidth <= 900) {
+                const scrollY = window.scrollY;
+                const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+                const ratio = Math.max(0, Math.min(scrollY / maxScroll, 1));
+                const iframeHeight = window.innerHeight - 70;
+                const iframeMax = 4900 - iframeHeight; 
+                try {
+                    iframe.contentWindow.scrollTo(0, ratio * iframeMax);
+                } catch(e) {}
+            }
+        }
+
+        window.addEventListener('scroll', updateHighlights);
+        setTimeout(updateHighlights, 100);
+    <\/script>
+</body>
+</html>`;
+            const newWin = window.open('', '_blank');
+            newWin.document.open();
+            newWin.document.write(htmlContent);
+            newWin.document.close();
+        }
+
+        function openPremiumDetailWindow() {
+            const htmlContent = `<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HEDIT | 프리미엄 라인 준비 중</title>
+    <style>
+        body { margin: 0; padding: 0; font-family: 'Malgun Gothic', sans-serif; background: #fdfdfd; display: flex; align-items: center; justify-content: center; height: 100vh; color: #222; text-align: center; }
+        .container { max-width: 400px; padding: 40px; }
+        .icon { font-size: 50px; margin-bottom: 20px; color: #c9a96e; }
+        .title { font-size: 24px; font-weight: 700; margin-bottom: 15px; letter-spacing: 1px; }
+        .desc { font-size: 15px; color: #666; line-height: 1.6; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="icon">⏳</div>
+        <div class="title">Coming Soon</div>
+        <div class="desc">프리미엄 라인의 새롭고 매력적인 디자인을<br>정성껏 준비하고 있습니다.<br>조금만 기다려주세요!</div>
+    </div>
+</body>
+</html>`;
+            const newWin = window.open('', '_blank');
+            newWin.document.open();
+            newWin.document.write(htmlContent);
+            newWin.document.close();
+        }
+    </script>
+</body>
+</html>
